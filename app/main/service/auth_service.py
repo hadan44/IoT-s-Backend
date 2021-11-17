@@ -3,7 +3,6 @@ from ..service.blacklist_service import save_token
 
 
 class Auth:
-
     @staticmethod
     def login_user(data):
         try:

@@ -1,6 +1,8 @@
 from flask import Flask, render_template, request, jsonify, Response
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
 
 from .util.picam import VideoCamera
 #from models import User, BlacklistToken
@@ -14,6 +16,10 @@ app.config['DEBUG'] = True
 app.config['SECRET_KEY'] = 'b\xe1\xfa\xd8h\xa9$\xfax\xad\xb1mS\xb4\x17k\x89'
 
 db = SQLAlchemy(app)
+engine = create_engine('mysql://root:root@localhost:3306/iot_mobile', echo=False)
+Session = sessionmaker(bind= engine, autocommit= True)
+session = Session()
+
 CORS(app)
 
 pi_camera = VideoCamera(flip=True)

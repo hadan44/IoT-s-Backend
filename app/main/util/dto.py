@@ -27,6 +27,19 @@ class SensorDto:
 class SwitchDto:
     api = Namespace('switch', description='switch related operations')
     switch = api.model('switch', {
-        'slot': fields.Integer(required=True, description='switch slot'),
-        'data': fields.Boolean(required=True, description='Input data'),
+        'out1': fields.Integer(required=True, description='Input data'),
+        'out2': fields.Integer(required=True, description='Input data'),
+        'out3': fields.Integer(required=True, description='Input data'),
     })
+
+class RemoteDto:
+    api = Namespace('remote', description='remote related operations')
+    remote_create = api.model('remote_create', {
+        'remote_name': fields.String(required= True, description='Input data'),
+        'command': fields.List(fields.String, required= True, description='Input data')
+    })
+    remote_send = api.model('remote_send', {
+        'remote_name': fields.String(required= True, description='Input data'),
+        'command': fields.String(required= True, description='Input data')
+    }) 
+    

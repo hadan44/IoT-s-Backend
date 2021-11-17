@@ -1,7 +1,7 @@
 import uuid
 import datetime
 
-from app.main import db
+from app.main import session
 from app.main.model.user import User
 
 def save_new_user(data):
@@ -35,5 +35,5 @@ def get_a_user(public_id):
 
 
 def save_changes(data):
-    db.session.add(data)
-    db.session.commit()
+    session.add(data)
+    session.commit()

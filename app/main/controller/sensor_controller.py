@@ -10,7 +10,6 @@ _sensor = SensorDto.sensor
 @api.route('/dht11sensor')
 class Sensor(Resource):
     @api.doc('get_data_sensor')
-    @api.marshal_with(_sensor, envelope='resource')
+
     def get(self):
         return dht11_sensor()
-
