@@ -26,6 +26,7 @@ class User(db.Model):
         Generates the Auth Token
         :return: string
         """
+        print(app.config.get('SECRET_KEY'))
         try:
             payload = {
                 'exp': datetime.datetime.utcnow() + datetime.timedelta(days=0, seconds=30),

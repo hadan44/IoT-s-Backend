@@ -13,12 +13,12 @@ class VideoCamera(object):
     def __del__(self):
         self.vs.stop()
 
-    def flip_if_needed(self, frame):
+    def flip_cam(self, frame):
         if self.flip:
             return np.flip(frame, 0)
         return frame
 
     def get_frame(self):
-        frame = self.flip_if_needed(self.vs.read())
+        frame = self.flip_cam(self.vs.read())
         ret, jpeg = cv2.imencode('.jpg', frame)
         return jpeg.tobytes()
