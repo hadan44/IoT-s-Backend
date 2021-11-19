@@ -47,6 +47,4 @@ def publish_data_to_switch(data1, data2, data3):
 	}
 	switchDataJson = json.dumps(switchData)
 	publish_To_Topic ("CyberLink/commands/1037600", switchDataJson)
-	
-publish_data_to_switch(0, 100, 0)
 

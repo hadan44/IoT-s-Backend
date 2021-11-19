@@ -3,9 +3,11 @@ import paho.mqtt.client as mqtt
 import json
 import datetime
 
-data1 = 100
-data2 = 0
-data3 = 100
+from sqlalchemy.sql.expression import true
+
+data1 = False
+data2 = False
+data3 = False
 
 MQTT_Topic_Switch = "CyberLink/commands/1037600"
 MQTT_Broker = "localhost"
@@ -32,6 +34,9 @@ def send_data_to_switch(data):
 	mqttc.on_disconnect = on_disconnect
 	mqttc.on_publish = on_publish
 	mqttc.connect(MQTT_Broker, int(MQTT_Port), int(Keep_Alive_Interval))
+	print(int(data['out1']))
+	print(int(data['out2']))
+	print(int(data['out3']))
 	switchData = {
 	 	"id":"1037600",
 	 	"data":{
@@ -51,17 +56,21 @@ def send_data_to_switch(data):
     
 def save_switch_state(data):
 	global data1, data2, data3
-	data1 = data['out1']
-	data2 = data['out2']
-	data3 = data['out3']
+	data1 = False if data['out1'] == 0 else True 
+	data2 = False if data['out2'] == 0 else True 
+	data3 = False if data['out3'] == 0 else True 
+	print(data1,data2 , data3)
 
 def get_last_state():
-	last_state = jsonify(
-		out1 = int(data1),
-		out2 = int(data2),
-		out3 = int(data3)
-	)
-	return last_state
+	response_object = {
+		'status': 'success',
+		'data': {
+			'out1' : data1,
+			'out2' : data2,
+			'out3' : data3
+		}
+	}
+	return response_object
 
 
 

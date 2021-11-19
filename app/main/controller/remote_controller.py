@@ -3,6 +3,7 @@ from flask_restplus import Resource
 
 from app.main.service.remote_service import save_new_remote, get_all_remote_name, send_remote_signal
 from ..util.dto import RemoteDto
+from app.main.util.decorator import token_required
 
 api = RemoteDto.api
 _remote = RemoteDto.remote_create
@@ -12,6 +13,7 @@ _send = RemoteDto.remote_send
 class Remote(Resource):
     @api.doc('create_remote')
     @api.expect(_remote, validate=True)
+    @token_required
     def post(self):
         post_data = request.json
         return save_new_remote(post_data)
@@ -20,6 +22,7 @@ class Remote(Resource):
 class Remote(Resource):
     @api.doc('send_remote_signal')
     @api.expect(_send, validate=True)
+    @token_required
     def post(self):
         post_data = request.json
         return send_remote_signal(post_data)
@@ -27,5 +30,6 @@ class Remote(Resource):
 @api.route('/getallremotename' , methods=['GET'])
 class Remote(Resource):
     @api.doc('get_switch_last_state')
+    @token_required
     def get(self):
         return get_all_remote_name()

@@ -8,11 +8,20 @@ from .main.controller.switch_controller import api as switch_ns
 from .main.controller.remote_controller import api as remote_ns
 
 blueprint = Blueprint('api', __name__)
+authorizations = {
+    'apiKey': {
+        'type': 'apiKey',
+        'in': 'header',
+        'name': 'token'
+    }
+}
 
 api = Api(blueprint,
           title='FLASK is FRAMEWORK NGU NGOK',
-          version='1.0',
-          description='lala'
+          version='2.0',
+          description='lala',
+          security= 'apiKey',
+          authorizations=authorizations
           )
 
 api.add_namespace(user_ns, path='/user')

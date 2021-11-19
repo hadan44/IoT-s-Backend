@@ -1,13 +1,13 @@
-from app.main import session
+from app.main import sessionLoader
 from app.main.model.remoteCommand import Remote
 import json
-from sqlalchemy import distinct, func
-import time
+from sqlalchemy import distinct
 import lirc
 
 def save_new_remote(data):
     command_arr = []
     counterr = 1
+    session = sessionLoader()
     countid = session.query(Remote.id).count()
     for _command in data['command']:
         print(data['remote_name'])
@@ -40,6 +40,7 @@ def save_new_remote(data):
     return response_object, 201
     
 def get_all_remote_name():
+    session = sessionLoader()
     remote_name_list = session.query(distinct(Remote.remote_name))
     characters_to_remove = "'(),"
     res = []
@@ -48,7 +49,11 @@ def get_all_remote_name():
         for character in characters_to_remove:
             newstring = newstring.replace(character, "")
         res.append(newstring)
-    return res, 200
+    response_object = {
+        'status': 'success',
+        'data': res
+    }
+    return response_object, 200
 
 
 def send_remote_signal(data):
@@ -68,9 +73,11 @@ def send_remote_signal(data):
 
     response_object = {
             'status': 'success',
-            'message': 'Successfully registered.'
+            'message': 'Successfully sended.'
     }
     return response_object, 200
 
 def save_changes(data):
+    session = sessionLoader()
     session.add(data)
+    session.commit()

@@ -1,7 +1,6 @@
 from app.main.model.user import User
 from ..service.blacklist_service import save_token
 
-
 class Auth:
     @staticmethod
     def login_user(data):
@@ -43,8 +42,9 @@ class Auth:
             resp = User.decode_auth_token(auth_token)
             if not isinstance(resp, str):
                 # mark the token as blacklisted
-                return save_token(token=auth_token)
-            else:
+                print('check1')
+                return save_token(auth_token)
+            else: 
                 response_object = {
                     'status': 'fail',
                     'message': resp
@@ -60,7 +60,9 @@ class Auth:
     @staticmethod
     def get_logged_in_user(new_request):
             # get the auth token
+            print(new_request)
             auth_token = new_request.headers.get('token')
+            print(auth_token)
             if auth_token:
                 resp = User.decode_auth_token(auth_token)
                 if not isinstance(resp, str):
@@ -69,8 +71,7 @@ class Auth:
                         'status': 'success',
                         'data': {
                             'user_id': user.id,
-                            'email': user.email,
-                            'admin': user.admin,
+                            'email': user.username,
                             'registered_on': str(user.registered_on)
                         }
                     }

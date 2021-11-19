@@ -1,9 +1,6 @@
-from re import T
 from sqlalchemy import Column, Integer, String
-from sqlalchemy.ext.declarative import declarative_base
+from app.main import Base
 
-
-Base = declarative_base()
 class Remote(Base):
     __tablename__ = 'remote'
     id = Column('id', Integer, primary_key=True, autoincrement= True)
