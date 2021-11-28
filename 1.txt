@@ -1,0 +1,9 @@
+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
+
+mvn spring-boot:run
+
+---if can not record voice: + apt-get install flac
+
+
+--- if show err "jack server is not running or cannot be started":
++ jack_control start
