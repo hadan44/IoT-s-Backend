@@ -10,7 +10,7 @@ class BlacklistToken(Base):
     __tablename__ = 'blacklist_tokens'
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    token = Column(String, unique=True, nullable=False)
+    token = Column(String(300), unique=True, nullable=False)
     blacklisted_on = Column(DateTime, nullable=False)
 
     def __init__(self, id, token):
