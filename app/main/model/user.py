@@ -3,14 +3,14 @@ import datetime
 import json
 
 from app.main.model.blacklist import BlacklistToken
-from app.main import db, app
+from app.main import db, app, sessionLoader, Base
 
-class User(db.Model):
+class User(Base):
     __tablename__ = 'users'
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(20), index=True, nullable=False)
-    password = db.Column(db.String(20), nullable=False)
-    registered_on = db.Column(db.DateTime,  nullable=True)
+    id = Column(db.Integer, primary_key=True)
+    username = Column(db.String(20), index=True, nullable=False, , autoincrement=True)
+    password = Column(db.String(20), nullable=False)
+    registered_on = Column(db.DateTime,  nullable=True)
 
     def __init__(self, id, username, password, registered_on):
         self.id = id

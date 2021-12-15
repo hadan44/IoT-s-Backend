@@ -18,9 +18,9 @@ app.config['SECRET_KEY'] = 'b\xe1\xfa\xd8h\xa9$\xfax\xad\xb1mS\xb4\x17k\x89'
 
 db = SQLAlchemy(app)
 
+engine = create_engine('mysql://root:root@localhost:3306/iot_mobile', echo=False)
 def sessionLoader():
-    engine = create_engine('mysql://root:root@localhost:3306/iot_mobile', echo=False)
-    Session = sessionmaker(bind= engine)
+    Session = sessionmaker(bind=engine)
     session = Session()
     return session
 
@@ -45,4 +45,5 @@ def video_feed():
 #     app.run()
 
 def create_app(config_name):
+    Base.metadata.create_all(bind=engine)
     return app
