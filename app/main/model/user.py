@@ -4,13 +4,14 @@ import json
 
 from app.main.model.blacklist import BlacklistToken
 from app.main import db, app, sessionLoader, Base
+from sqlalchemy import Table, Column, Float, Integer, String, DateTime
 
 class User(Base):
     __tablename__ = 'users'
     id = Column(db.Integer, primary_key=True)
-    username = Column(db.String(20), index=True, nullable=False, , autoincrement=True)
-    password = Column(db.String(20), nullable=False)
-    registered_on = Column(db.DateTime,  nullable=True)
+    username = Column(String(20), index=True, nullable=False, autoincrement=True)
+    password = Column(String(20), nullable=False)
+    registered_on = Column(DateTime,  nullable=True)
 
     def __init__(self, id, username, password, registered_on):
         self.id = id

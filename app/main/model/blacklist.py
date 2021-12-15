@@ -1,6 +1,7 @@
 from sqlalchemy import Column, Integer, String, DateTime
 import datetime
 from app.main import sessionLoader, Base
+from sqlalchemy import Table, Column, Float, Integer, String, DateTime
 
 class BlacklistToken(Base):
     """

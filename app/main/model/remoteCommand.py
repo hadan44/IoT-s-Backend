@@ -1,5 +1,6 @@
 from sqlalchemy import Column, Integer, String
 from app.main import Base
+from sqlalchemy import Table, Column, Float, Integer, String, DateTime
 
 class Remote(Base):
     __tablename__ = 'remote'
