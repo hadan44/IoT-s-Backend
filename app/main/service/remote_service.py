@@ -77,6 +77,20 @@ def send_remote_signal(data):
     }
     return response_object, 200
 
+def get_remote_by_name(remote_name):
+    session = sessionLoader()
+    remote = session.query(Remote.command).filter(Remote.remote_name == remote_name).all()
+    print(remote)
+    res = []
+    for x in remote:
+        res.append(x[0])
+    print(res)
+    response_object = {
+        'status': 'success',
+        'data': res
+    }
+    return response_object
+
 def save_changes(data):
     session = sessionLoader()
     session.add(data)

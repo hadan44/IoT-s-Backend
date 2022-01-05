@@ -1,7 +1,7 @@
 from flask import request
 from flask_restplus import Resource
 
-from app.main.service.remote_service import save_new_remote, get_all_remote_name, send_remote_signal
+from app.main.service.remote_service import save_new_remote, get_all_remote_name, send_remote_signal, get_remote_by_name
 from ..util.dto import RemoteDto
 from app.main.util.decorator import token_required
 
@@ -29,7 +29,16 @@ class Remote(Resource):
 
 @api.route('/getallremotename' , methods=['GET'])
 class Remote(Resource):
-    @api.doc('get_switch_last_state')
+    @api.doc('')
     @token_required
     def get(self):
         return get_all_remote_name()
+
+@api.param('remote_name', 'The User identifier')
+@api.route('/getremotebyname/<remote_name>' , methods=['GET'])
+@api.param('remote_name', 'The User identifier')
+class Remote(Resource):
+    @api.doc('')
+    @token_required
+    def get(self, remote_name):
+        return get_remote_by_name(remote_name);

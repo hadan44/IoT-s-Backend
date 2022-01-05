@@ -1,16 +1,20 @@
 import datetime
-from app.main import sessionLoader
-
+from app.main import sessionLoader, Base
+from flask import Response
 from app.main.model.user import User
+from ..service.switch_service import save_switch_name
 
 def save_new_user(data):
-    user = User.query.filter_by(username=data['username']).first()
+    session = sessionLoader()
+    user = session.query(User).filter(User.username == str(data['username'])).first()
     if not user:
         new_user = User(
-            id=data['id'],
+            userID=data['userID'],
             username=data['username'],
             password=data['password'],
-            registered_on=datetime.datetime.utcnow()
+            emergencyPhone='0396302198',
+            location='hanoi',
+            fullname='Nguyen Vuong Tien'
         )
         save_changes(new_user)
         response_object = {
@@ -25,12 +29,22 @@ def save_new_user(data):
         }
         return response_object, 409
 
+def modify_user(data):
+    session = sessionLoader()
+    save_switch_name(data)
+    session.query(User).filter(User.userID == int(data['userID'])).update({User.password:str(data['password']), User.fullname:str(data['fullname']), User.emergencyPhone:str(data['emergencyPhone']), User.location:str(data['location'])}, synchronize_session = False)
+    session.commit()
+    return 1
+
 def get_all_users():
-    return User.query.all()
+    session = sessionLoader()
+    result = session.query(User).all()
+    return result
 
 
 def get_a_user(public_id):
-    return User.query.filter_by(id=public_id).first()
+    session = sessionLoader()
+    return session.query(User).filter(User.userID==public_id).first()
 
 
 def save_changes(data):

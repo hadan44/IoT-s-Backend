@@ -5,19 +5,24 @@ import json
 from app.main.model.blacklist import BlacklistToken
 from app.main import db, app, sessionLoader, Base
 from sqlalchemy import Table, Column, Float, Integer, String, DateTime
+from sqlalchemy.orm import relationship
 
 class User(Base):
-    __tablename__ = 'users'
-    id = Column(db.Integer, primary_key=True)
-    username = Column(String(20), index=True, nullable=False, autoincrement=True)
-    password = Column(String(20), nullable=False)
-    registered_on = Column(DateTime,  nullable=True)
+    __tablename__ = 'user'
+    userID = Column(Integer, primary_key=True, autoincrement=True, index=True)
+    username = Column(String(40), nullable=False)
+    password = Column(String(40), nullable=False)
+    emergencyPhone = Column(String(20), nullable=True)
+    location = Column(String(50), nullable=True)
+    fullname = Column(String(100), nullable=True)
 
-    def __init__(self, id, username, password, registered_on):
-        self.id = id
+    def __init__(self, userID, username, password, emergencyPhone, location, fullname):
+        self.userID = userID
         self.username = username
         self.password = password
-        self.registered_on = registered_on
+        self.emergencyPhone = emergencyPhone
+        self.location = location
+        self.fullname = fullname
 
     def check_password(self, password):
         if self.password == password: return True

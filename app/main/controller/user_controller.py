@@ -3,10 +3,11 @@ from flask_restplus import Resource
 from app.main.util.decorator import token_required
 
 from app.main.util.dto import UserDto
-from app.main.service.user_service import save_new_user, get_all_users, get_a_user
+from app.main.service.user_service import save_new_user, get_all_users, get_a_user, modify_user
 
 api = UserDto.api
 _user = UserDto.user
+_user_and_sw = UserDto.user_and_sw
 
 @api.route('/')
 class UserList(Resource):
@@ -17,10 +18,9 @@ class UserList(Resource):
         """List all registered users"""
         return get_all_users()
 
-    @api.response(201, 'User successfully created.')
+    @api.response(200, 'User successfully created.')
     @api.doc('create a new user')
     @api.expect(_user, validate=True)
-    @token_required
     def post(self):
         """Creates a new User """
         data = request.json
@@ -32,13 +32,25 @@ class UserList(Resource):
 @api.param('public_id', 'The User identifier')
 @api.response(404, 'User not found.')
 class User(Resource):
-    @api.doc('get a user')
+    @api.doc('get an user')
     @api.marshal_with(_user)
     @token_required
     def get(self, public_id):
-        """get a user given its identifier"""
+        """get a user given id"""
         user = get_a_user(public_id)
         if not user:
             api.abort(404)
         else:
             return user
+
+@api.route('/adjust')
+@api.response(404, 'User not found.')
+class User(Resource):
+    @api.doc('modify an user')
+    @api.expect(_user_and_sw, validate=True)
+    @token_required
+    def post(self):
+        data = request.json
+        print(data)
+        return modify_user(data)
+        

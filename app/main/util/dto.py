@@ -4,9 +4,23 @@ from flask_restplus import Namespace, fields
 class UserDto:
     api = Namespace('user', description='user related operations')
     user = api.model('user', {
-        'id': fields.Integer(required=True, description='user id'),
+        'userID': fields.Integer(required=True, description='user id'),
         'username': fields.String(required=True, description='user username'),
         'password': fields.String(required=True, description='user password'),
+        'emergencyPhone': fields.String(required=True, description='user password'),
+        'location': fields.String(required=True, description='user password'),
+        'fullname': fields.String(required=True, description='user password'), 
+    })
+    user_and_sw = api.model('user', {
+        'userID': fields.Integer(required=True, description='user id'),
+        'username': fields.String(required=True, description='user username'),
+        'password': fields.String(required=True, description='user password'),
+        'emergencyPhone': fields.String(required=True, description='user password'),
+        'location': fields.String(required=True, description='user'),
+        'fullname': fields.String(required=True, description='user'),
+        'name1':  fields.String(required=True, description='user'),
+        'name2':  fields.String(required=True, description='user '),
+        'name3':  fields.String(required=True, description='user'),
     })
 
 class AuthDto:
@@ -42,4 +56,7 @@ class RemoteDto:
         'remote_name': fields.String(required= True, description='Input data'),
         'command': fields.String(required= True, description='Input data')
     }) 
+
+class CameraDto:
+    api = Namespace('camera', description='camera related operations')
     

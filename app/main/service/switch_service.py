@@ -9,6 +9,10 @@ data1 = False
 data2 = False
 data3 = False
 
+name1 = 'switch1'
+name2 = 'switch2'
+name3 = 'switch3'
+
 MQTT_Topic_Switch = "CyberLink/commands/1037600"
 MQTT_Broker = "localhost"
 MQTT_Port = 1883
@@ -67,11 +71,30 @@ def get_last_state():
 		'data': {
 			'out1' : data1,
 			'out2' : data2,
-			'out3' : data3
+			'out3' : data3,
+			'name1' : name1,
+			'name2' : name2,
+			'name3' : name3
+		}
+	}
+	return response_object
+
+def get_switch_name():
+	response_object = {
+		'status': 'success',
+		'data': {
+			'name1' : name1,
+			'name2' : name2,
+			'name3' : name3
 		}
 	}
 	return response_object
 
 
-
+def save_switch_name(data):
+	global name1, name2, name3
+	name1 = data['name1']
+	name2 = data['name2']
+	name3 = data['name3']
+	print(name1 ,name2 , name3)
 

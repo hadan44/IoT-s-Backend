@@ -1,18 +1,23 @@
 from app.main.model.user import User
 from ..service.blacklist_service import save_token
+from app.main import Base, sessionLoader
 
 class Auth:
     @staticmethod
     def login_user(data):
         try:
             # fetch the user data
-            user = User.query.filter_by(username=data.get('username')).first()
+            print(data)
+            session = sessionLoader()
+            user = session.query(User).filter(User.username == str(data.get('username'))).first()
+            print(user)
             if user and user.check_password(data.get('password')):
-                auth_token = user.encode_auth_token(user.id)
+                auth_token = user.encode_auth_token(user.userID)
                 if auth_token:
                     response_object = {
                         'status': 'success',
                         'message': 'Successfully logged in.',
+                        'userID': user.userID,
                         'Authorization': auth_token
                     }
                     return response_object, 200
@@ -66,13 +71,17 @@ class Auth:
             if auth_token:
                 resp = User.decode_auth_token(auth_token)
                 if not isinstance(resp, str):
-                    user = User.query.filter_by(id=resp).first()
+                    session = sessionLoader()
+                    user = session.query(User).filter(User.userID==resp).first()
                     response_object = {
                         'status': 'success',
                         'data': {
-                            'user_id': user.id,
-                            'email': user.username,
-                            'registered_on': str(user.registered_on)
+                            'user_id': user.userID,
+                            'username': user.username,
+                            'password': user.password,
+                            'location': user.location,
+                            'emergency_phone': user.emergencyPhone,
+                            'fullname': user.fullname
                         }
                     }
                     return response_object, 200

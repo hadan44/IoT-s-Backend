@@ -6,6 +6,7 @@ from .main.controller.auth_controller import api as auth_ns
 from .main.controller.sensor_controller import api as sensor_ns
 from .main.controller.switch_controller import api as switch_ns
 from .main.controller.remote_controller import api as remote_ns
+from .main import api as camera_ns
 
 blueprint = Blueprint('api', __name__)
 authorizations = {
@@ -29,3 +30,4 @@ api.add_namespace(sensor_ns, path='/sensor')
 api.add_namespace(switch_ns)
 api.add_namespace(remote_ns)
 api.add_namespace(auth_ns)
+api.add_namespace(camera_ns)
